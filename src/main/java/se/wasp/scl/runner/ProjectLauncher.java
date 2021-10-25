@@ -33,6 +33,10 @@ public class ProjectLauncher {
             FlowBreakProcessor flowBreakProcessor = new FlowBreakProcessor();
             model.processWith(flowBreakProcessor);
             return flowBreakProcessor.getFlowBreakFound();
+        } else if (syntacticConstruct.equals(SyntacticEnum.IF)) {
+            IfProcessor ifProcessor = new IfProcessor();
+            model.processWith(ifProcessor);
+            return ifProcessor.getIfFound();
         }
         return null;
     }
