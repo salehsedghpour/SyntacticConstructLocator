@@ -37,6 +37,10 @@ public class ProjectLauncher {
             IfProcessor ifProcessor = new IfProcessor();
             model.processWith(ifProcessor);
             return ifProcessor.getIfFound();
+        } else if (syntacticConstruct.equals(SyntacticEnum.SWITCH)) {
+            SwitchProcessor switchProcessor = new SwitchProcessor();
+            model.processWith(switchProcessor);
+            return switchProcessor.getSwitchFound();
         } else {
             LoopProcessor loopProcessor = new LoopProcessor();
             model.processWith(loopProcessor);
