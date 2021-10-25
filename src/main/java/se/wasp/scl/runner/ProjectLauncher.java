@@ -37,7 +37,10 @@ public class ProjectLauncher {
             IfProcessor ifProcessor = new IfProcessor();
             model.processWith(ifProcessor);
             return ifProcessor.getIfFound();
+        } else {
+            LoopProcessor loopProcessor = new LoopProcessor();
+            model.processWith(loopProcessor);
+            return loopProcessor.getLoopssFound();
         }
-        return null;
     }
 }
