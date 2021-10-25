@@ -29,6 +29,10 @@ public class ProjectLauncher {
             AssertionProcessor assertionProcessor = new AssertionProcessor();
             model.processWith(assertionProcessor);
             return assertionProcessor.getAssertionFound();
+        } else if (syntacticConstruct.equals(SyntacticEnum.FLOW_BREAK)) {
+            FlowBreakProcessor flowBreakProcessor = new FlowBreakProcessor();
+            model.processWith(flowBreakProcessor);
+            return flowBreakProcessor.getFlowBreakFound();
         }
         return null;
     }
