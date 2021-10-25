@@ -1,5 +1,6 @@
 package se.wasp.scl.runner;
 
+import se.wasp.scl.processor.*;
 import se.wasp.scl.util.SyntacticEnum;
 import spoon.Launcher;
 import spoon.reflect.CtModel;
@@ -24,6 +25,11 @@ public class ProjectLauncher {
         model = launcher.getModel();
     }
     public List<String> processModel() {
+        if (syntacticConstruct.equals(SyntacticEnum.ASSERTION)) {
+            AssertionProcessor assertionProcessor = new AssertionProcessor();
+            model.processWith(assertionProcessor);
+            return assertionProcessor.getAssertionFound();
+        }
         return null;
     }
 }
