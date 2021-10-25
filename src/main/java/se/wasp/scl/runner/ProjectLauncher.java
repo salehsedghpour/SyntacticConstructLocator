@@ -45,6 +45,10 @@ public class ProjectLauncher {
             SynchronizedProcessor synchronizedProcessor = new SynchronizedProcessor();
             model.processWith(synchronizedProcessor);
             return synchronizedProcessor.getSynchronizedFound();
+        } else if (syntacticConstruct.equals(SyntacticEnum.TRY)) {
+            TryProcessor tryProcessor = new TryProcessor();
+            model.processWith(tryProcessor);
+            return tryProcessor.getTryFound();
         } else {
             LoopProcessor loopProcessor = new LoopProcessor();
             model.processWith(loopProcessor);
