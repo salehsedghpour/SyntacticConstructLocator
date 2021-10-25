@@ -6,17 +6,15 @@
 
     <groupId>se.wasp.scl</groupId>
     <artifactId>SyntacticConstructLocator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.compiler.plugin.release>11</maven.compiler.plugin.release>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <maven.assembly.plugin.version>3.2.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
-        <maven.jacoco.plugin.version>0.8.5</maven.jacoco.plugin.version>
+        <maven.jacoco.plugin.version>0.8.7</maven.jacoco.plugin.version>
         <puppycrawl.checkstyle.version>8.40</puppycrawl.checkstyle.version>
         <sl4j.version>1.7.30</sl4j.version>
         <picocli.version>4.6.1</picocli.version>
@@ -27,10 +25,13 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <release>${maven.compiler.plugin.release}</release>
+                    <archive>
+                        <manifest>
+                            <mainClass>se.wasp.scl.runner.SCLCommand</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -46,7 +47,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>se.wasp.Main</mainClass>
+                                    <mainClass>se.wasp.scl.runner.SCLCommand</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -106,7 +107,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
+            <version>1.7.32</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

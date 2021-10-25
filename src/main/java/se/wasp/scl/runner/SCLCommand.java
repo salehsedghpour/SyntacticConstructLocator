@@ -6,6 +6,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import se.wasp.scl.util.SyntacticEnum;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
@@ -65,6 +66,11 @@ public class SCLCommand implements Callable<Integer> {
             LOGGER.info(String.format("You've chosen to find all %s constructs that are in %s",
                     syntactic, projectPath));
         }
+
+        ProjectLauncher launcher = new ProjectLauncher(projectPath, syntactic);
+        List<String> constructsFound = launcher.processModel();
+        LOGGER.info(String.format("Found %s result(s)", constructsFound.size()));
+        System.out.println(constructsFound);
 
         return 0;
     }
