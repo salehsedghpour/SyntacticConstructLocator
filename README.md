@@ -1,9 +1,7 @@
 ## `Syntactic Construct Locator`
 
-This unit uses [Spoon](https://spoon.gforge.inria.fr/) to locate syntactic constructs from a Java source file.
-Currently it supports:
 This unit accepts an input containing a list of AST nodes, and filters AST elements based on input parameters.
-It currently supports the following point.
+It currently supports:
 
 - Loops
 - If
