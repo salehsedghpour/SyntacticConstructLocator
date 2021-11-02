@@ -3,18 +3,19 @@ package se.wasp.scl.runner;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
+import se.wasp.scl.processor.ASTFilter;
 import se.wasp.scl.util.SyntacticEnum;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 @Command(name = "scl", mixinStandardHelpOptions = true, version = "1.0",
          description = "Locates instances of given syntactic constucts")
 public class SCLCommand implements Callable<Integer> {
-    @Parameters(index = "0", description = "The path to the .java file to analyze.")
-    private String projectPath;
+    private static String parsedAST;
+
     @Option(names = {"-l", "--locate"}, fallbackValue = "loop", arity = "0..1", description = "Locate specified syntactic construct: loop (default), if, assertion, switch, synchronized, flow_break, try")
     private String inputSyntacticConstruct;
     private SyntacticEnum syntactic;
@@ -57,24 +58,24 @@ public class SCLCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        if (!projectPath.endsWith(".java")) {
-            System.out.println("Please provide a Java source file (.java). Try --help for help.");
-            return 1;
-        }
         setSyntactic();
-        if (inputSyntacticConstruct != null) {
-            LOGGER.info(String.format("You've chosen to find all %s constructs that are in %s",
-                    syntactic, projectPath));
+
+        if (parsedAST.length() > 0) {
+            LOGGER.info(String.format("Working with the parsed AST piped in from the CLI"));
+            ASTFilter.filterCLIInput(parsedAST, syntactic);
         }
-
-        ProjectLauncher launcher = new ProjectLauncher(projectPath, syntactic);
-        List<String> constructsFound = launcher.processModel();
-        LOGGER.info(String.format("Found %s result(s)", constructsFound.size()));
-        System.out.println(constructsFound);
-
         return 0;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder content = new StringBuilder();
+        String line;
+        while ((line = in.readLine()) != null) {
+            content.append(line);
+            content.append(System.lineSeparator());
+        }
+        parsedAST = content.toString();
+        LOGGER.info("Found piped input of length: " + parsedAST.length());
         int exitCode = new CommandLine(new SCLCommand()).execute(args);
         System.exit(exitCode);
     }
